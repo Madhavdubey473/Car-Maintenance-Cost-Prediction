@@ -11,9 +11,9 @@ from src.components.model_trainer import ModelTrainer
 from src.components.model_trainer import ModelTrainerConfig
 
 
-@dataclass                                                           # To define a class variable in a class you requires init , if you use this dataclass you will be directly able to define the class variable
-class DataIngestionConfig:                                           # Config class requires to give input
-    train_data_path: str = os.path.join('artifacts', "train.csv")    # All the outputs will save in artifacts folder as train.csv
+@dataclass                                                           
+class DataIngestionConfig:                                           
+    train_data_path: str = os.path.join('artifacts', "train.csv")    
     test_data_path: str = os.path.join('artifacts', "test.csv")
     raw_data_path : str = os.path.join('artifacts', "data.csv")
 
