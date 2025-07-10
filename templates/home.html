@@ -1,0 +1,135 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Car Maintenance Cost Prediction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #eef2f3;
+            padding: 40px;
+        }
+        .login {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+        }
+        .mb-3 {
+            margin-bottom: 15px;
+        }
+        label, select, input {
+            display: block;
+            width: 100%;
+            padding: 8px;
+            font-size: 15px;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+            padding: 10px;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="login">
+        <h1>Car Maintenance Cost Prediction</h1>
+        <form action="{{ url_for('predict_datapoint') }}" method="post">
+            
+            <!-- Categorical dropdown fields -->
+            <div class="mb-3">
+                <label class="form-label">Brand</label>
+                <select class="form-control" name="brand" required>
+                    <option selected disabled value="">Select Brand</option>
+                    <option value="honda">Honda</option>
+                    <option value="toyota">Toyota</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Model</label>
+                <select class="form-control" name="model" required>
+                    <option selected disabled value="">Select Model</option>
+                    <option value="amaze">Amaze</option>
+                    <option value="city">City</option>
+                    <option value="jazz">Jazz</option>
+                    <option value="fortuner">Fortuner</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Engine Type</label>
+                <select class="form-control" name="engine_type" required>
+                    <option selected disabled value="">Select Engine Type</option>
+                    <option value="diesel">Diesel</option>
+                    <option value="petrol">Petrol</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Make Year</label>
+                <select class="form-control" name="make_year" required>
+                    <option selected disabled value="">Select Make Year</option>
+                    <option value="2016">2016</option>
+                    <option value="2017">2017</option>
+                    <option value="2018">2018</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Region</label>
+                <select class="form-control" name="region" required>
+                    <option selected disabled value="">Select Region</option>
+                    <option value="chennai">Chennai</option>
+                    <option value="mumbai">Mumbai</option>
+                </select>
+            </div>
+
+            <!-- Numeric fields -->
+            <div class="mb-3">
+                <label class="form-label">Mileage Range</label>
+                <input class="form-control" type="number" name="mileage_range" step="0.01" required />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Mileage</label>
+                <input class="form-control" type="number" name="mileage" step="0.01" required />
+            </div>
+
+            <!-- Binary (yes/no) fields -->
+            {% for field in ['oil_filter', 'engine_oil', 'washer_plug_drain', 'dust_and_pollen_filter', 
+                             'whell_alignment_and_balancing', 'air_clean_filter', 'fuel_filter', 
+                             'spark_plug', 'brake_fluid', 'brake_and_clutch_oil', 'transmission_fluid', 
+                             'brake_pads', 'clutch', 'coolant'] %}
+            <div class="mb-3">
+                <label class="form-label">{{ field.replace('_', ' ').title() }}</label>
+                <select class="form-control" name="{{ field }}" required>
+                    <option selected disabled value="">Select</option>
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </select>
+            </div>
+            {% endfor %}
+
+            <!-- Submit -->
+            <div class="mb-3">
+                <input class="btn-primary" type="submit" value="Predict Maintenance Cost" />
+            </div>
+        </form>
+
+        {% if results %}
+        <h2>Predicted Maintenance Cost: ₹{{ results }}</h2>
+        {% endif %}
+    </div>
+</body>
+</html>
